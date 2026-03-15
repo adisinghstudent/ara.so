@@ -26,6 +26,7 @@ npx skills add adisinghstudent/ara.so --skill openclaw-config
 | [gstack](skills/gstack/) | Use Garry Tan's exact Claude Code setup: 6 opinionated tools that serve as CEO, Eng Manager, Release Manager and QA Engineer | [garrytan/gstack](https://github.com/garrytan/gstack) | 2026-03-15 |
 | [pi-autoresearch](skills/pi-autoresearch/) | Autonomous experiment loop extension for pi | [davebcn87/pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | 2026-03-15 |
 | [openclaw-control-center](skills/openclaw-control-center/) | Turn OpenClaw from a black box into a local control center you can see, trust, and control. | [TianyiDataScience/openclaw-control-center](https://github.com/TianyiDataScience/openclaw-control-center) | 2026-03-15 |
+| [chrome-cdp-skill](skills/chrome-cdp-skill/) | Give your AI agent access to your live Chrome session — works out of the box, connects to tabs you already have open | [pasky/chrome-cdp-skill](https://github.com/pasky/chrome-cdp-skill) | 2026-03-15 |
 <!-- SKILL_INDEX -->
 
 ## How daily skills work
