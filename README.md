@@ -24,6 +24,7 @@ npx skills add adisinghstudent/ara.so --skill openclaw-config
 | [openclaw-config](skills/openclaw-config/) | Manage OpenClaw bot configuration — channels, agents, security, autopilot | — | — |
 | [lightpanda-browser](skills/lightpanda-browser/) | Headless browser built in Zig for AI and automation | [lightpanda-io/browser](https://github.com/lightpanda-io/browser) | 2026-03-15 |
 | [gstack](skills/gstack/) | Use Garry Tan's exact Claude Code setup: 6 opinionated tools that serve as CEO, Eng Manager, Release Manager and QA Engineer | [garrytan/gstack](https://github.com/garrytan/gstack) | 2026-03-15 |
+| [pi-autoresearch](skills/pi-autoresearch/) | Autonomous experiment loop extension for pi | [davebcn87/pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | 2026-03-15 |
 <!-- SKILL_INDEX -->
 
 ## How daily skills work
