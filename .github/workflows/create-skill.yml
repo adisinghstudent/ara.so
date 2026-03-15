@@ -25,10 +25,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
+          set -e
 
           # Get date 7 days ago (Linux)
-          SINCE=$(date -d '7 days ago' +%Y-%m-%d 2>/dev/null || date -v-7d +%Y-%m-%d)
+          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
 
           # Fetch top new repos by stars
           TRENDING_JSON=$(curl -sf \
@@ -87,17 +87,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
+          set +e
           REPO_FULL="${{ steps.trending.outputs.repo_full }}"
 
-          README_RAW=$(curl -s "https://api.github.com/repos/${REPO_FULL}/readme" \
+          curl -s "https://api.github.com/repos/${REPO_FULL}/readme" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "Accept: application/vnd.github.v3+json" \
-            | jq -r '.content // empty')
+            | jq -r '.content // empty' > /tmp/readme_b64.txt
 
-          if [ -n "${README_RAW}" ]; then
-            echo "${README_RAW}" | base64 -d 2>/dev/null | head -c 8000 > /tmp/repo_readme.md
-          else
+          if [ -s /tmp/readme_b64.txt ]; then
+            base64 -d /tmp/readme_b64.txt 2>/dev/null | head -c 8000 > /tmp/repo_readme.md
+          fi
+
+          if [ ! -s /tmp/repo_readme.md ]; then
             echo "No README available" > /tmp/repo_readme.md
           fi
 
@@ -108,7 +110,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          set -euo pipefail
+          set -e
 
           REPO_FULL="${{ steps.trending.outputs.repo_full }}"
           REPO_NAME="${{ steps.trending.outputs.repo_name }}"
