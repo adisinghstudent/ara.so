@@ -90,12 +90,16 @@ jobs:
           set -euo pipefail
           REPO_FULL="${{ steps.trending.outputs.repo_full }}"
 
-          curl -sf "https://api.github.com/repos/${REPO_FULL}/readme" \
+          README_RAW=$(curl -s "https://api.github.com/repos/${REPO_FULL}/readme" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "Accept: application/vnd.github.v3+json" \
-            | jq -r '.content // empty' \
-            | base64 -d 2>/dev/null \
-            | head -c 8000 > /tmp/repo_readme.md || echo "No README" > /tmp/repo_readme.md
+            | jq -r '.content // empty')
+
+          if [ -n "${README_RAW}" ]; then
+            echo "${README_RAW}" | base64 -d 2>/dev/null | head -c 8000 > /tmp/repo_readme.md
+          else
+            echo "No README available" > /tmp/repo_readme.md
+          fi
 
           echo "README size: $(wc -c < /tmp/repo_readme.md) bytes"
 
@@ -146,15 +150,31 @@ jobs:
           )
 
           # Call Claude API using jq to safely encode the prompt
-          RESPONSE=$(jq -n --arg prompt "${FULL_PROMPT}" '{
+          jq -n --arg prompt "${FULL_PROMPT}" '{
             model: "claude-sonnet-4-20250514",
             max_tokens: 8000,
             messages: [{role: "user", content: $prompt}]
-          }' | curl -sf https://api.anthropic.com/v1/messages \
+          }' > /tmp/request.json
+
+          echo "Request size: $(wc -c < /tmp/request.json) bytes"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" https://api.anthropic.com/v1/messages \
             -H "content-type: application/json" \
             -H "x-api-key: ${ANTHROPIC_API_KEY}" \
             -H "anthropic-version: 2023-06-01" \
-            -d @-)
+            -d @/tmp/request.json)
+
+          HTTP_CODE=$(echo "${RESPONSE}" | tail -1)
+          BODY=$(echo "${RESPONSE}" | sed '$d')
+          echo "HTTP status: ${HTTP_CODE}"
+
+          if [ "${HTTP_CODE}" != "200" ]; then
+            echo "::error::Claude API returned HTTP ${HTTP_CODE}"
+            echo "${BODY}" | jq . 2>/dev/null || echo "${BODY}"
+            exit 1
+          fi
+
+          RESPONSE="${BODY}"
 
           SKILL_CONTENT=$(echo "${RESPONSE}" | jq -r '.content[0].text // empty')
 
