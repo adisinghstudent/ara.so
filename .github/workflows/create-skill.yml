@@ -122,15 +122,15 @@ $(cat /tmp/repo_readme.md)
 Create a comprehensive SKILL.md file with this EXACT format. The skill should help AI coding agents work with this project effectively.
 
 Requirements:
-1. Start with YAML frontmatter: name, description (one line), and triggers (6-8 relevant trigger phrases)
-2. Add a tagline: '> Skill by [ara.so](https://ara.so) — Daily 2026 Skills collection'
+1. Start with YAML frontmatter: name (kebab-case, descriptive — e.g. 'lightpanda-browser' not 'browser', 'openviking-context-db' not 'openviking'), description (one line), and triggers (6-8 relevant trigger phrases)
+2. Add a tagline on the first line after the heading: '> Skill by [ara.so](https://ara.so) — Daily 2026 Skills collection'
 3. Cover: what it does, installation, key commands/API, configuration, common patterns, integration examples, troubleshooting
 4. Include real code examples in the project's primary language ($REPO_LANG)
 5. Be thorough but practical — focus on what an AI agent would need to help a developer use this project
 6. Do NOT include any placeholder API keys or secrets
-7. The skill name should be descriptive: use '$SKILL_SLUG' as the name field
+7. Use '$SKILL_SLUG' as a starting point for the name but make it more descriptive if needed (add a suffix like -browser, -agent, -db, -cli, -sdk to clarify what it is)
 
-Output ONLY the SKILL.md content, nothing else."
+Output ONLY the SKILL.md content, nothing else. Start with --- (the YAML frontmatter opening)."
 
           # Call Claude API
           RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
@@ -152,6 +152,14 @@ Output ONLY the SKILL.md content, nothing else."
             echo "Failed to generate skill content"
             echo "$RESPONSE" | jq .
             exit 1
+          fi
+
+          # Extract the actual skill name from generated frontmatter
+          GENERATED_NAME=$(echo "$SKILL_CONTENT" | grep -m1 "^name:" | sed 's/name: *//' | tr -d '"' | tr -d "'")
+          if [ -n "$GENERATED_NAME" ] && [ "$GENERATED_NAME" != "$SKILL_SLUG" ]; then
+            echo "Claude suggested name: $GENERATED_NAME (was: $SKILL_SLUG)"
+            SKILL_SLUG="$GENERATED_NAME"
+            echo "skill_slug=$SKILL_SLUG" >> $GITHUB_OUTPUT
           fi
 
           # Write the skill file
