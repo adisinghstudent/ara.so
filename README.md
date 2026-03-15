@@ -1,66 +1,41 @@
-# openclaw-config
+# ara.so — Agent Skills
 
-Full reference for managing, debugging, and searching everything in `~/.openclaw` — channels, sessions, logs, cron jobs, memory, extensions, and credentials.
+Agent skills by [ara.so](https://ara.so). Includes hand-crafted skills and auto-generated daily skills from GitHub's trending open source projects.
 
-v2: Rewritten with real file paths, copy-paste debug commands, troubleshooting playbooks, and session search recipes.
+Every hour, a GitHub Actions workflow checks what's trending on GitHub and creates a comprehensive agent skill for the top project.
 
-## Install
-
-```bash
-npx add-skill adisinghstudent/easyclaw
-```
-
-Or for specific agents:
+## Install all skills
 
 ```bash
-npx add-skill adisinghstudent/easyclaw -a claude-code
-npx add-skill adisinghstudent/easyclaw -a cursor
-npx add-skill adisinghstudent/easyclaw -a codex
+npx skills add adisinghstudent/ara.so
 ```
 
-## What's Inside
+## Install a specific skill
 
-- **Full file map** of every directory and file in `~/.openclaw/`
-- **Session search** — find conversations by keyword, contact, channel, or date
-- **Log analysis** — gateway events, errors, channel-specific filtering
-- **Cron debugging** — failed jobs, run history, next scheduled times
-- **Memory inspection** — SQLite queries for the persistent memory DB
-- **Channel status** — quick overview of all channel configs and policies
-- **Credential health checks** — verify WhatsApp, Telegram, Signal, Twitter creds
-- **Config editing** — safe `jq` one-liners for common changes (model, concurrency, policies)
-- **Troubleshooting playbooks** for: channel not connecting, Signal RPC failures, cron failures, WhatsApp disconnect, iMessage permissions, broken config, finding old messages
-- **Workspace file reference** — what each `.md` file does and when to edit it
-- **Session JSONL format** — how to parse transcripts programmatically
-- **Extension plugin format** — structure for building custom channel plugins
-
-## Quick Examples
-
-Search all sessions for a keyword:
 ```bash
-grep "KEYWORD" ~/.openclaw/agents/main/sessions/*.jsonl | head -20
+npx skills add adisinghstudent/ara.so --skill lightpanda-browser
+npx skills add adisinghstudent/ara.so --skill openclaw-config
 ```
 
-Check which cron jobs are failing:
-```bash
-cat ~/.openclaw/cron/jobs.json | jq '.jobs[] | select(.state.lastStatus == "error") | {name, error: .state.lastError}'
-```
+## Skills Index
 
-Channel overview:
-```bash
-cat ~/.openclaw/openclaw.json | jq '{
-  whatsapp: .channels.whatsapp.dmPolicy,
-  signal: .channels.signal.dmPolicy,
-  telegram: .channels.telegram.dmPolicy,
-  imessage: .channels.imessage.enabled
-}'
-```
+| Skill | Description | Source | Date |
+|-------|-------------|--------|------|
+| [openclaw-config](skills/openclaw-config/) | Manage OpenClaw bot configuration — channels, agents, security, autopilot | — | — |
+| [lightpanda-browser](skills/lightpanda-browser/) | Headless browser built in Zig for AI and automation | [lightpanda-io/browser](https://github.com/lightpanda-io/browser) | 2026-03-15 |
+<!-- SKILL_INDEX -->
 
-## Requirements
+## How daily skills work
 
-- OpenClaw installed
-- `jq` for config editing commands
-- `sqlite3` for memory database queries
-- `python3` for session transcript parsing
+1. GitHub Actions cron runs every hour
+2. Fetches the hottest new repos (created in the last 7 days, sorted by stars)
+3. Skips repos that already have a skill
+4. Uses the Claude API to generate a comprehensive SKILL.md from the repo's README
+5. Commits, pushes, and registers on skills.sh
+
+## By ara.so
+
+[Ara](https://ara.so) — instant AI agent environments in the cloud.
 
 ## License
 
