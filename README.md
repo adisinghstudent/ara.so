@@ -1,6 +1,8 @@
 # openclaw-config
 
-Full reference for managing, debugging, and searching everything in `~/.openclaw` — channels, sessions, logs, cron jobs, memory, extensions, and credentials.
+> by [ara.so](https://ara.so) — 1.5K installs on [skills.sh](https://skills.sh/adisinghstudent/ara.so/openclaw-config)
+
+Agent skill for managing, debugging, and operating [OpenClaw](https://github.com/Aradotso/zeroclaw) — the open-source AI agent runtime. Gives your coding agent full knowledge of OpenClaw's config, logs, sessions, and internals.
 
 ## Install
 
@@ -8,17 +10,37 @@ Full reference for managing, debugging, and searching everything in `~/.openclaw
 npx skills add adisinghstudent/ara.so
 ```
 
-## What's Inside
+Works with Claude Code, Cursor, Codex, Windsurf, Cline, GitHub Copilot, and [30+ other agents](https://skills.sh/adisinghstudent/ara.so/openclaw-config).
 
-- **Full file map** of every directory and file in `~/.openclaw/`
-- **Session search** — find conversations by keyword, contact, channel, or date
-- **Log analysis** — gateway events, errors, channel-specific filtering
-- **Cron debugging** — failed jobs, run history, next scheduled times
-- **Memory inspection** — SQLite queries for the persistent memory DB
-- **Channel status** — quick overview of all channel configs and policies
-- **Credential health checks** — verify WhatsApp, Telegram, Signal, Twitter creds
-- **Config editing** — safe `jq` one-liners for common changes (model, concurrency, policies)
-- **Troubleshooting playbooks** for: channel not connecting, Signal RPC failures, cron failures, WhatsApp disconnect, iMessage permissions, broken config, finding old messages
+## What it does
+
+Once installed, your AI agent can:
+
+- **Diagnose issues** — health checks, gateway status, process monitoring
+- **Search sessions** — find conversations by keyword, contact, channel, or date
+- **Analyze logs** — filter gateway events, errors, channel-specific logs
+- **Debug cron jobs** — failed jobs, run history, next scheduled times
+- **Inspect memory** — SQLite queries against the persistent memory DB
+- **Check channels** — WhatsApp, Telegram, Signal, iMessage, Twitter status and policies
+- **Verify credentials** — health checks for all channel auth configs
+- **Edit config safely** — `jq` one-liners for model, concurrency, and policy changes
+- **Troubleshoot** — playbooks for common failures (disconnects, RPC errors, broken config)
+
+## Example
+
+Ask your agent:
+
+```
+Why is my WhatsApp channel not connecting?
+```
+
+The skill gives the agent the exact commands to run, files to check, and fixes to apply.
+
+## Links
+
+- [skills.sh page](https://skills.sh/adisinghstudent/ara.so/openclaw-config)
+- [OpenClaw](https://github.com/Aradotso/zeroclaw)
+- [ara.so](https://ara.so)
 
 ## License
 
