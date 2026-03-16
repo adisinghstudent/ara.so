@@ -1,45 +1,24 @@
-# ara.so — Agent Skills
+# openclaw-config
 
-Agent skills by [ara.so](https://ara.so). Includes hand-crafted skills and auto-generated daily skills from GitHub's trending open source projects.
+Full reference for managing, debugging, and searching everything in `~/.openclaw` — channels, sessions, logs, cron jobs, memory, extensions, and credentials.
 
-Every hour, a GitHub Actions workflow checks what's trending on GitHub and creates a comprehensive agent skill for the top project.
-
-## Install all skills
+## Install
 
 ```bash
 npx skills add adisinghstudent/ara.so
 ```
 
-## Install a specific skill
+## What's Inside
 
-```bash
-npx skills add adisinghstudent/ara.so --skill lightpanda-browser
-npx skills add adisinghstudent/ara.so --skill openclaw-config
-```
-
-## Skills Index
-
-| Skill | Description | Source | Date |
-|-------|-------------|--------|------|
-| [openclaw-config](skills/openclaw-config/) | Manage OpenClaw bot configuration — channels, agents, security, autopilot | — | — |
-| [lightpanda-browser](skills/lightpanda-browser/) | Headless browser built in Zig for AI and automation | [lightpanda-io/browser](https://github.com/lightpanda-io/browser) | 2026-03-15 |
-| [gstack](skills/gstack/) | Use Garry Tan's exact Claude Code setup: 6 opinionated tools that serve as CEO, Eng Manager, Release Manager and QA Engineer | [garrytan/gstack](https://github.com/garrytan/gstack) | 2026-03-15 |
-| [pi-autoresearch](skills/pi-autoresearch/) | Autonomous experiment loop extension for pi | [davebcn87/pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | 2026-03-15 |
-| [openclaw-control-center](skills/openclaw-control-center/) | Turn OpenClaw from a black box into a local control center you can see, trust, and control. | [TianyiDataScience/openclaw-control-center](https://github.com/TianyiDataScience/openclaw-control-center) | 2026-03-15 |
-| [chrome-cdp-skill](skills/chrome-cdp-skill/) | Give your AI agent access to your live Chrome session — works out of the box, connects to tabs you already have open | [pasky/chrome-cdp-skill](https://github.com/pasky/chrome-cdp-skill) | 2026-03-15 |
-<!-- SKILL_INDEX -->
-
-## How daily skills work
-
-1. GitHub Actions cron runs every hour
-2. Fetches the hottest new repos (created in the last 7 days, sorted by stars)
-3. Skips repos that already have a skill
-4. Uses the Claude API to generate a comprehensive SKILL.md from the repo's README
-5. Commits, pushes, and registers on skills.sh
-
-## By ara.so
-
-[Ara](https://ara.so) — instant AI agent environments in the cloud.
+- **Full file map** of every directory and file in `~/.openclaw/`
+- **Session search** — find conversations by keyword, contact, channel, or date
+- **Log analysis** — gateway events, errors, channel-specific filtering
+- **Cron debugging** — failed jobs, run history, next scheduled times
+- **Memory inspection** — SQLite queries for the persistent memory DB
+- **Channel status** — quick overview of all channel configs and policies
+- **Credential health checks** — verify WhatsApp, Telegram, Signal, Twitter creds
+- **Config editing** — safe `jq` one-liners for common changes (model, concurrency, policies)
+- **Troubleshooting playbooks** for: channel not connecting, Signal RPC failures, cron failures, WhatsApp disconnect, iMessage permissions, broken config, finding old messages
 
 ## License
 
