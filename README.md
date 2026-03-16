@@ -1,4 +1,4 @@
-# openclaw-config
+# Openclaw-config
 
 > by [ara.so](https://ara.so) — 1.5K installs on [skills.sh](https://skills.sh/adisinghstudent/ara.so/openclaw-config)
 
